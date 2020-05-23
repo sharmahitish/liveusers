@@ -1,0 +1,136 @@
+<html>
+<head>
+  <center>
+<Title>Form</Title>
+<script src="Form.js"></script>
+</head>
+    <body>
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+   <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyB0sBZIsuyJDLB2Q0wnwy1UIywLusRTEfw",
+      authDomain: "form-7f24d.firebaseapp.com",
+      databaseURL: "https://form-7f24d.firebaseio.com",
+      projectId: "form-7f24d",
+      storageBucket: "form-7f24d.appspot.com",
+      messagingSenderId: "185216490023",
+      appId: "1:185216490023:web:0ee1bbfa39b7b956914c02"
+    };
+    // Initialize Firebase
+    var app  = firebase.initializeApp(firebaseConfig);
+     // Get a reference to the database service
+  var db = firebase.firestore(app);
+  </script>
+
+  <script>
+    function addDatabase(){ 
+    var email=document.getElementById("email");
+    var password=document.getElementById("password");
+    var name=document.getElementById("name"); 
+
+    const promise =  db.collection("users").doc(email.value).set({
+                first: name.value,
+                useremail: email.value,
+                userPass: password.value
+            })
+            .then(function() {
+    console.log("Document successfully written!");
+})
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            }); 
+} 
+  </script>
+
+
+
+  <script>
+            const auth=firebase.auth();
+
+function signUp()
+    {
+        var email=document.getElementById("email");
+        var password=document.getElementById("password");
+        const promise=auth.createUserWithEmailAndPassword(email.value,password.value);
+        promise.catch(e=>alert(e.message));
+        alert("Signed Up");
+        }
+            function signIn()
+        {
+        var email=document.getElementById("email");
+        var password=document.getElementById("password");
+        const promise=auth.createsignInWithEmailAndPassword(email.value,password.value);
+        promise.catch(e=>alert(e.message));
+        alert(" Signed In "+email);
+    } 
+
+    function signOut()
+    {
+        auth.signOut();
+        alert("Signed");
+    }
+
+  </script>
+
+<script>
+  function updateData(){ 
+        var email=document.getElementById("email");
+    var password=document.getElementById("password");
+    var name=document.getElementById("name"); 
+
+db.collection("users").doc(email.value).update({ 
+                "first": name.value,
+                "useremail": email.value,
+                "userPass": password.value
+            })
+            .then(function() {
+                console.log("Document successfully updated!");
+            });
+      
+
+}
+</script>
+
+<script>
+  function readData(){
+    var email=document.getElementById("email");
+    db.collection("users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      document.getElementById("displayEmails").innerHTML = "<span> " + doc.data().email + " </span>"
+        console.log(`${doc.id} => ${doc.data().email}`);
+
+    });
+}); 
+  }
+</script>
+ 
+<h1> Form</h1>
+
+    <div id="formContainer">
+    <div id="header"></div>
+
+
+    <div id="displayEmails"></div>
+
+    <input type="email" placeholder="email" id="email"><br><br>
+    <input type="name" placeholder="name" id="name"><br><br>
+    <input type="password" placeholder="password" id="password"><br><br>
+
+    <button onclick="signUp()" id="signUp">SignUp</button>
+    <button onclick="signIn()" id="signIn">SignIn</button>
+    <button onclick="signOut()" id="signOut">SignOut</button>
+    <button onclick="addDatabase()" id="addData">Add Data</button>
+    <button onclick="readData()" id="readData">Read Data</button>
+    <button onclick="updateData()" id="updateData">Update Data</button>
+</div>
+</center>    
+</body>
+
+</html>

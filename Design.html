@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: Arial;
+  color: white;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.left {
+  left: 150;
+  background-color: #FFFFFF;
+}
+
+.right {
+  right: 0;
+  background-color: #CDC2C2;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.centered img {
+  width: 100px;
+  border-radius: 100%;
+}
+
+</style>
+</head>
+<body>
+
+<div class="split left">
+  <div class="centered">
+   <img src="login.jpg" alt="loginkey">
+  </div>
+</div>
+
+<div class="split right">
+  <div class="centered">
+    <img src="img_avatar.png" alt="Avatar man">
+    <h2>Login</h2>
+   
+    
+
+     <label for="fname">First name:</label>
+  <input type="text" id="fname" name="fname" color="blue"><br><br>
+  <label for="lname">Last name:</label>
+  <input type="text" id="lname" name="lname"><br><br>
+  <input type="button" value="LogIn">
+    <input type="button" value="SignIn">
+
+
+ </div>
+</div>
+     
+</body>
+</html> 

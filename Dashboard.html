@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <!-- onbeforeunload="ConfirmClose()"  onunload="HandleOnClose()" -->
+    <body onload="handleScreenLoad()"  >
+
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script> 
+
+     <script>
+
+    // Your web app's Firebase configuration
+     var firebaseConfig = {
+      apiKey: "AIzaSyB0sBZIsuyJDLB2Q0wnwy1UIywLusRTEfw",
+      authDomain: "form-7f24d.firebaseapp.com",
+      databaseURL: "https://form-7f24d.firebaseio.com",
+      projectId: "form-7f24d",
+      storageBucket: "form-7f24d.appspot.com",
+      messagingSenderId: "185216490023",
+      appId: "1:185216490023:web:0ee1bbfa39b7b956914c02"
+    };
+    var app  = firebase.initializeApp(firebaseConfig);
+     // Get a reference to the database service
+    var db = firebase.firestore(app);  
+    const auth = firebase.auth(); 
+
+    var listOfEmail = new Array();
+
+
+// Check browser support
+     function handleScreenLoad() {
+          if (typeof(Storage) !== "undefined") {
+            // Store
+          //   sessionStorage.setItem("lastname", "Smith");
+            // Retrieve
+            document.getElementById("result").innerHTML = sessionStorage.getItem("userEmail");
+          } else {
+            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+          }
+          setInterval(
+               function(){
+                // Status Table
+          var date = new Date(); 
+          var minute = date.getMinutes();
+           var hour = date.getHours(); 
+           var day = date.getDate(); 
+           var month = date.getMonth(); 
+           var year = date.getFullYear();
+           var second = date.getSeconds();
+          
+           // Date...
+           var currentDateFormat = date + "/" + month + "/" + year;
+           // Time...
+           var currentTime = hour+ ":" + minute + ":" + second;
+           // Time in milliseconds..
+           var dateInMilliseconds = date.getTime()
+          var sessionEmail =  sessionStorage.getItem("userEmail")
+               
+          db.collection("sessionTable").doc(sessionEmail).set({
+                date: currentDateFormat,
+                time: currentTime,
+                status: "active"
+            })
+            .then(function() {
+               //  window.open("file:///Users/kunalasharma/Desktop/Form/Dashboard.html");
+                  console.log("Document successfully written!");
+                })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            }); 
+
+          },
+          4000); 
+     }  
+
+
+       // Get list of available emails in table
+  setInterval(
+              function(){
+  db.collection("users").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    if(listOfEmail.includes(doc.id)) {
+      // Continue
+    }  else {
+      listOfEmail.push(doc.id)
+    document.getElementById("displayEmails").innerHTML += "<span> " + doc.id + " </span>"
+        console.log(`${doc.id} ::::=> ::::${doc.data().userPass}`);
+    }
+    });
+  })
+}, 4000) 
+
+
+// Fetch Sessions of other users
+setInterval(
+          function(){
+  db.collection("sessionTable").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    if(listOfEmail.includes(doc.id)) {
+      // Continue
+    }  else {
+      listOfEmail.push(doc.id)
+    document.getElementById("otherUsers").innerHTML += "<span> " + doc.id + " </span>"
+        console.log(`${doc.id} :::: Session of userd ::::${doc.data().time}`);
+    }
+    });
+  })
+}, 4000) 
+
+
+
+// function compareTme(userTime) {
+//   const currentSystem = new Date();
+//   const userTime = new Date(userTime);
+//   const difDateTime = currentSystem.getDate() - userTime.getDate();
+//   var msec = difDateTime;
+//   var hh = Math.floor(msec / 1000 / 60 / 60);
+//   msec -= hh * 1000 * 60 * 60;
+//   var mm = Math.floor(msec / 1000 / 60);
+//   msec -= mm * 1000 * 60;
+//   var ss = Math.floor(msec / 1000);
+//   msec -= ss * 1000;
+//   console.log(msec);
+// }
+
+</script>
+          
+     
+
+<center>
+   
+<div id="displayEmails"></div>
+
+<div id="otherUsers"></div>
+
+<h1>WELCOME TO THIS DOCUMENT...</h1>
+
+<div id="result"></div>
+
+     </center>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<body>
+  
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script> 
+
+    <!-- <script text= "" src="firebaseapp.js" /> -->
+    <center>
+
+<h2>Sign Up Page</h2>
+<table>
+  <tr>
+    <td>UserName</td>
+    <th><input type="text" id="username" value=""></th>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><input type="text" id="email" value=""></td>
+  </tr>
+  <tr>
+    <td>Password</td>
+    <td><input type="password" id="password" value=""></td>
+  </tr>
+    <tr>
+   
+</table>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyB0sBZIsuyJDLB2Q0wnwy1UIywLusRTEfw",
+      authDomain: "form-7f24d.firebaseapp.com",
+      databaseURL: "https://form-7f24d.firebaseio.com",
+      projectId: "form-7f24d",
+      storageBucket: "form-7f24d.appspot.com",
+      messagingSenderId: "185216490023",
+      appId: "1:185216490023:web:0ee1bbfa39b7b956914c02"
+    };
+    var app  = firebase.initializeApp(firebaseConfig);
+    // Get a reference to the database service
+    var db = firebase.firestore(app);
+    const auth = firebase.auth(); 
+
+    function signUp()
+    {  
+     if (validateForm1()) {
+        var userName =  document.getElementById("username");
+        var email=document.getElementById("email");
+        var password=document.getElementById("password");
+        // const promise = auth.createUserWithEmailAndPassword(email.value,password.value); 
+        // promise.catch(e=>alert(e.message));
+        auth.createUserWithEmailAndPassword(email.value, password.value).then(function(user) {
+           
+          db.collection("users").doc(email.value).set({
+                first: userName.value,
+                useremail: email.value,
+                userPass: password.value
+            })
+            .then(function() {
+              window.open("file:///Users/sumitchouhan/Desktop/DemoJavascript/Form/Dashboard.html");
+                // window.open("file:///Users/kunalasharma/Desktop/Form/Dashboard.html");
+                  console.log("Document successfully written!");
+                })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            }); 
+            
+        }).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === 'auth/wrong-password') {
+         alert('Wrong password.');
+        } else {
+         alert(errorMessage);         
+        }
+        console.log(error);
+        }); 
+        }
+     }
+
+function isEmailValied(inputText) {
+    var atposition=inputText.indexOf("@");  
+    var dotposition=inputText.lastIndexOf(".");  
+    if (atposition<1 || dotposition<atposition+2 || dotposition+2>=inputText.length){  
+        alert("Please enter a valid e-mail address \n atpostion:"+atposition+"\n dotposition:"+dotposition);  
+        return false;  
+    }  
+    return true;
+}
+
+    function validateForm1() {
+     
+        var x = document.getElementById("username").value;
+      var y = document.getElementById("email").value;
+      var localPassword= document.getElementById("password").value;
+
+       if (x == "" || x == null) {
+         alert("UserName must be filled out");
+        return false;
+      } else if(y == "" || y == null){
+         alert("Email must be filled out");
+        return false;
+      } else if(localPassword == "" || localPassword== null){
+         alert("Password must be filled out");
+        return false;
+       } else if(localPassword.length<6) {
+         alert("Password should be more than 6 character");
+        return false;
+       } else if(!isEmailValied(y)){
+         alert("Enter valid email address");
+        return false;
+       } else{
+         return true;
+       } 
+    }
+    
+  </script>
+   <input type="button"  onclick="signUp()" value="Register">
+ 
+
+</center>
+<p id="demo"></p>
+
+
+</body>
+</html>
