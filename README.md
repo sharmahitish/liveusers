@@ -1,6 +1,13 @@
 # Liveusers Assignment-1
 Build a presence Service, Similar to that of google docs which shows people that are currently being a particular docs
 
+
+Publish Link :- 
+https://x0rctjpf0mchkoywii14fq-on.drv.tw/www.liveuserassignment.com/LiveUserScripts.html
+
+Run Code :- 
+LiveUserScripts.html is the base file 
+
 Software Description :-
 Build a presence service,similar to that of google docs, which shows people
 are currently viewing a particular doc.
@@ -74,6 +81,8 @@ GiB per month}
 5) Google Fonts
 6) Google drive hosting
 7) Sweet Alert.
+
+
 
 
 
