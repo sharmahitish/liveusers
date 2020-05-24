@@ -195,6 +195,7 @@ function signUpValidation() {
 <script>
     var listOfEmail = new Array();
     var alreadyDisplayChips = new Array();
+   
 // Check browser support
     
      function updateUserStatusToServer() {
@@ -281,10 +282,10 @@ function checkActiveStatusIntervals() {
             
                 } else {
                     if (alreadyDisplayChips.includes(doc.id)) {
-                         console.log("slice" + doc.id)
+                        //  console.log("slice" + doc.id)
                         alreadyDisplayChips.splice(doc.id, 1); 
-                        console.log(alreadyDisplayChips)
-                        // removeByAttr(alreadyDisplayChips, 'email', doc.id);  
+                        // console.log(alreadyDisplayChips)
+
                     }
                 }
                 
@@ -298,9 +299,30 @@ function checkActiveStatusIntervals() {
                         document.getElementById("otherUsers").innerHTML += 
                         "<span onmouseover='handleHover(this)' id="+alreadyDisplayChips[i]+"> <img src='avtars/avtar2.png'  style='width:50px'>  </span>"
                     }
-                }  
-            });
+                } 
+
+
+                 if(alreadyDisplayChips.length == 0){
+                    document.getElementById("otherUsers").innerHTML = "<span>  We donot have any Active user </span>" 
+                 }
+            })
         })
+}
+
+
+function numberOfUsers() {
+    // document.getElementById('display_number_of_users').innerText += doc.id 
+    var total = 0    
+    db.collection("users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        total++
+        listOfEmail.push(doc.id)
+    })
+    alert("Total number of present users in our table incliuding active or non-active "+ total)
+    })
+
+    
+    
 }
 
 // Difference between 2 times in seconds
@@ -322,6 +344,9 @@ function isStatusVisible(serverTimer) {
 <div  class = "shadow" id="div_sign_in">
     <table class="sign">
     <tr> 
+    <td><h1>Welcome to Live User</h1></td> 
+    </tr>
+    <tr> 
     <td><input class="editTextField" type="text" placeholder = "Email" id="sign_in_email" value=""></td>
 
      </tr>
@@ -336,6 +361,10 @@ function isStatusVisible(serverTimer) {
                                                         <!-- Signup   -->
  <div class = "shadow" id="div_sign_up"  hidden>
     <table>
+    <tr> 
+    <th><h1>Sign Up</h1></th>
+    </tr>
+    <tr> 
     <tr> 
     <th><input class="editTextField"  type="text" id="register_username" placeholder = "UserName"  value=""></th>
     </tr>
@@ -358,19 +387,13 @@ function isStatusVisible(serverTimer) {
     <!-- <div id="result"></div> -->
 
      <div id="otherUsers">
-            <!-- <img src='avtars/avtar1.png'  style='width:50px' class='under'> 
-            <img src='avtars/avtar2.png'  style='width:50px' class='over_1'> 
-            <img src='avtars/avtar3.png'  style='width:50px' class='over_2'> 
-            <img src='avtars/avtar4.png'  style='width:50px' class='overr_3'>  
-            <img src='avtars/avtar5.png'  style='width:50px' class='overr_4'>  
-            <button class="last_btn_display last_btn_display_5" id="display_pending"> </button> -->
-
+                    Loading.......
     </div>
     <div id="displayEmails">
     </div>
 
     <div id="hover_user">   
-            <button class="buttonP">Present</button>
+            <button class="buttonP" type="button"  onclick="numberOfUsers()">Present</button>
             <button class="buttonS">Share</button>
     </div> 
     </div>
