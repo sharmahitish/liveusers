@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <link rel="stylesheet" type="text/css" href="design.css"> -->
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <link rel="stylesheet" href="design.css" type="text/css">
+</head>
+
+    <body>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>  
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase.js"></script>
+         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+
+       
+         <script>
+                 // Your web app's Firebase configuration
+          var firebaseConfig = {
+                apiKey: "AIzaSyB0sBZIsuyJDLB2Q0wnwy1UIywLusRTEfw",
+                  authDomain: "form-7f24d.firebaseapp.com",
+                  databaseURL: "https://form-7f24d.firebaseio.com",
+                  projectId: "form-7f24d",
+                  storageBucket: "form-7f24d.appspot.com",
+                  messagingSenderId: "185216490023",
+                  appId: "1:185216490023:web:0ee1bbfa39b7b956914c02"
+                };       
+                var app  = firebase.initializeApp(firebaseConfig);
+                 // Get a reference to the database service
+                 var db = firebase.firestore(app);  
+                //  const auth = firebase.auth(); 
+    </script>
+
+
+
+<!-- Common Methods -->
+<script>
+    function isEmailValied(inputText) {
+        var atposition=inputText.indexOf("@");  
+        var dotposition=inputText.lastIndexOf(".");  
+        if (atposition<1 || dotposition<atposition+2 || dotposition+2>=inputText.length){  
+            alert("Please enter a valid e-mail address \n atpostion:"+atposition+"\n dotposition:"+dotposition);  
+            return false;  
+        }  
+        return true;
+}
+
+function goneAll() {
+    document.getElementById("div_sign_in").style.display = 'none';
+    document.getElementById("div_sign_up").style.display = 'none';
+    document.getElementById("div_display_visible_users").style.display = 'none';
+}
+
+</script>
+
+<!-- SIGIN IN SCRIPT -->
+<script>
+    function gotToSignUp(){
+    goneAll()
+    document.getElementById("div_sign_up").style.display = 'block';
+  }
+
+  function nevigateToSignIn(){
+    goneAll()
+    document.getElementById("div_sign_in").style.display = 'block';
+  }
+
+const auth = firebase.auth(); 
+function signIn() {
+
+    var signInEmail = document.getElementById("sign_in_email").value;
+    var signInPassword = document.getElementById("sign_in_password").value;
+  
+  // Store Session
+    if (validateForm(signInEmail, signInPassword)) {
+        auth.signInWithEmailAndPassword(signInEmail, signInPassword).then(function(user) {
+            swal("Great", "Successfully Login", "success")
+            .then((value) => {
+            sessionStorage.setItem("userEmail", signInEmail);
+            goneAll()
+            document.getElementById("div_display_visible_users").style.display = 'block';
+            updateUserStatusToServer()
+            });
+        }).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode === 'auth/wrong-password') {
+                swal("Error", "Wrong password", "error")
+            } else {
+                swal( "Error","User Not authenticate. Please Register.", "error")
+            }
+            console.log(error);
+        });
+    }
+}
+  function validateForm(localEmail, localPassword) {
+    if (localEmail == "" || localEmail == null) {
+        swal("Error", "Email must be filled out", "error");
+        return false;
+    } else if(localPassword == "" || localPassword == null){
+        swal("Error", "Password must be filled out", "error");
+        return false;
+    } else if(!isEmailValied(localEmail))  {
+        swal( "Error", "Enter valid email address", "error");
+        // alert("Enter valid email address");
+        return false;
+    } else {
+        return true;
+    }
+  }
+</script>
+
+
+<!-- SIGNUP SCRIPT -->
+<script>
+
+function signUp()
+{  
+    if (signUpValidation()) {
+        var userName =  document.getElementById("register_username").value;
+        var email = document.getElementById("register_email").value;
+        var password = document.getElementById("register_password").value;
+
+console.log(userName)
+console.log(email)
+console.log(password)
+
+
+        auth.createUserWithEmailAndPassword(email ,password).then(function(user) {
+           
+        db.collection("users").doc(email).set({
+            first: userName,
+            useremail: email,
+            userPass: password
+        })
+        .then(function() {
+            console.log("here")
+
+            swal("Great", "Successfully Login", "success")
+            .then((value) => {
+            sessionStorage.setItem("userEmail", email);
+            goneAll()
+            document.getElementById("div_display_visible_users").style.display = 'block';
+            updateUserStatusToServer()
+            });
+           
+            })
+            .catch(function(error) { 
+                swal( "Error", "Please check your Internet Connection", "error");  
+                console.log(error.message);
+            }); 
+            
+        }).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === 'auth/wrong-password') { 
+         swal( "Error", "Wrong password.", "error");  
+        } else {  
+         swal( "Error", errorMessage, "error");    
+        }
+        console.log(error);
+        }); 
+    }
+}
+
+function signUpValidation() {
+    var localRegUserName = document.getElementById("register_username").value;
+    var localRegEmail = document.getElementById("register_email").value;
+    var localRegPassword= document.getElementById("register_password").value;
+
+       if (localRegUserName == "" || localRegUserName == null) {
+        swal( "Error", "UserName must be filled out", "error");
+            return false;
+      } else if(localRegEmail == "" || localRegEmail == null) {
+        swal( "Error", "Email must be filled out", "error");
+            return false;
+      } else if(localRegPassword == "" || localRegPassword== null){
+        swal( "Error", "Password must be filled out", "error");
+            return false;
+       } else if(localRegPassword.length < 6) {
+        swal( "Error", "Password should be more than 6 character", "error");
+            return false;
+       } else if(!isEmailValied(localRegEmail)){
+        swal( "Error", "Enter valid email address", "error");
+        return false;
+       } else{
+            return true;
+       } 
+    }
+    
+</script>
+
+<!-- DASHBOARD SCRIPT -->
+<script>
+    var listOfEmail = new Array();
+    var alreadyDisplayChips = new Array();
+// Check browser support
+    
+     function updateUserStatusToServer() {
+          if (typeof(Storage) !== "undefined") {
+            document.getElementById("result").innerHTML = sessionStorage.getItem("userEmail");
+          } else {
+            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+          }
+          setInterval (
+               function() {
+                // Status Table
+          var date = new Date(); 
+          var minute = date.getMinutes();
+           var hour = date.getHours(); 
+           var day = date.getDate(); 
+           var month = date.getMonth(); 
+           var year = date.getFullYear();
+           var second = date.getSeconds();
+          
+           // Date...
+           var currentDateFormat = date + "/" + month + "/" + year;
+           // Time...
+           var currentTime = hour+ ":" + minute + ":" + second;
+           // Time in milliseconds..
+           var dateInMilliseconds = date.getTime()
+          var sessionEmail =  sessionStorage.getItem("userEmail")
+               
+          db.collection("sessionTable").doc(sessionEmail).set({
+                date: currentDateFormat,
+                time: currentTime,
+                timeInMiles: dateInMilliseconds,
+                status: "active"
+            })
+            .then(function() {
+                //   console.log("Document successfully written!");
+                })
+            .catch(function(error) {
+                // console.error("Error adding document: ", error);
+            }); 
+            runActiveEmailIntervals()  
+          },
+          2000); 
+
+         
+     }  
+
+
+function runActiveEmailIntervals() {
+    // Get list of available emails in table
+    db.collection("users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        if(!listOfEmail.includes(doc.id)) {
+            listOfEmail.push(doc.id)
+            // document.getElementById("displayEmails").innerHTML += "<span> " + doc.id + " </span>"
+            // console.log(`${doc.id} ::::=> ::::${doc.data().userPass}`);
+        }
+        });
+    })
+
+checkActiveStatusIntervals()
+}
+
+function handleHover(id) {
+    // Pop up Design
+//    alert("Hover Hitish"+ id.id)
+}
+
+function checkActiveStatusIntervals() {
+// Fetch Sessions of other users
+    db.collection("sessionTable").get().then((querySnapshot) => {
+     querySnapshot.forEach((doc) => {
+            var userTime = doc.get("timeInMiles")
+            // console.log("TIMEEEEEE HITISH:-"+ doc.id)
+
+            if(isStatusVisible(userTime)) {
+                if(!alreadyDisplayChips.includes(doc.id)) {
+                    // console.log( "length:::"+doc.id)
+                    alreadyDisplayChips.push(doc.id) 
+                    console.log("Added elements"+alreadyDisplayChips)  
+                }
+            
+                } else {
+                    if (alreadyDisplayChips.includes(doc.id)) {
+                         console.log("slice" + doc.id)
+                        alreadyDisplayChips.splice(doc.id, 1); 
+                        console.log(alreadyDisplayChips)
+                        // removeByAttr(alreadyDisplayChips, 'email', doc.id);  
+                    }
+                }
+                document.getElementById("otherUsers").innerHTML = '';
+                // console.log("Result:-"+alreadyDisplayChips)
+                for (i = 0; i < alreadyDisplayChips.length; i++) {
+                    document.getElementById("otherUsers").innerHTML += 
+                    "<div onmouseover='handleHover(this)' id="+alreadyDisplayChips[i]+"> " + alreadyDisplayChips[i] + " Status :- " +doc.get("status") + " </div>"
+                } 
+
+            });
+        })
+
+        // document.getElementById("otherUsers").innerHTML += 
+        //             "<div onmouseover='handleHover(this)' id="+doc.id+"> " + doc.id + " </div>"
+        //doc.get("status")
+}
+
+// Difference between 2 times in seconds
+function isStatusVisible(serverTimer) {
+    var currentD = new Date(); 
+    // console.log("TIMEEEEEE HITISH ServerTim:-"+ serverTimer + "::::::" +currentD.getTime())
+    var differenceTimer = currentD.getTime() -  serverTimer;
+    var inSeconds = Math.round(differenceTimer / 1000);
+    if(inSeconds > 5) {
+        return false
+    }
+    
+    return true
+}
+</script>
+    
+                                                    <!-- Html designs -->
+                                                        <!-- Signup   -->
+<div  class = "shadow" id="div_sign_in">
+    <table class="sign">
+    <tr> 
+    <td><input class="editTextField" type="text" placeholder = "Email" id="sign_in_email" value=""></td>
+     </tr>
+     <tr> 
+    <td><input class="editTextField" type="text" placeholder = "Password" id="sign_in_password" value=""></td>
+    <tr> 
+    </table>
+    <input class="button_css_ui1" type="button"  onclick="signIn()" value="SignIn">
+    <button  class="button_css_ui1" onclick="gotToSignUp()"> SignUp </button>
+ </div>
+
+                                                        <!-- Signup   -->
+ <div class = "shadow" id="div_sign_up"  hidden>
+    <table>
+    <tr> 
+    <th><input class="editTextField"  type="text" id="register_username" placeholder = "UserName"  value=""></th>
+    </tr>
+    <tr> 
+    <td><input class="editTextField"  type="text" id="register_email" placeholder = "Email"  value=""></td>
+    </tr>
+    <tr> 
+    <td><input class="editTextField"  type="password" id="register_password" placeholder = "Password"   value=""></td>
+    </tr>
+    <tr>
+    </table>
+    <input  class="button_css_ui1" type="button"  onclick="signUp()" value="Register">
+    <input class="button_css_ui1" type="button"  onclick="nevigateToSignIn()" value="SignIn">
+</div>
+
+                                                        <!-- Dashboard -->
+    <div id="div_display_visible_users" hidden>
+
+    <h1>WELCOME TO THIS DOCUMENT...</h1>
+    <div id="result"></div>
+
+    <div id="otherUsers"></div>
+    <div id="displayEmails"></div>
+
+    <div>
+            <!-- <img src="avtar1.png"  style="width:50px">
+            <img src="avtar2.png"  style="width:50px">
+            <img src="avtar3.png"  style="width:50px">
+            <img src="avtar4.png"  style="width:50px">
+            <img src="avtar5.png"  style="width:50px"> -->
+            
+    </div>
+
+    </script>
+    </div>
+
+</div>
+</body>
+</html>
