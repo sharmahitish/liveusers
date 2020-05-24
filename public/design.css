@@ -1,0 +1,47 @@
+.button_css_ui1 {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding-top: 15px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+ }
+ 
+ .button_css_ui1 {border-radius: 10px;}
+
+ .editTextField {
+  outline: 0;
+  background: #f2f2f2;
+  color: white;
+  padding-top: 15px;
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-bottom: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  border: 0; 
+  cursor: pointer;
+  font-family: 'Sofia';font-size: 18px;
+  color: green
+ }
+
+ .shadow  {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+ } 
