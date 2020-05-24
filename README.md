@@ -1,7 +1,6 @@
 # Liveusers Assignment-1
 Build a presence Service, Similar to that of google docs which shows people that are currently being a particular docs
 
-
 Software Description :-
 Build a presence service,similar to that of google docs, which shows people
 are currently viewing a particular doc.
@@ -27,8 +26,8 @@ registered, their username, mail ,password and active / inactive status is
 stored and another time the same user tries to SignIn it will move the user
 to the Dashboard page.
 Validation Implemented :-
-Sign :-
 
+Sign :-
 1. Empty Validation
 2. Email Validation
 3. Password at least 6 characters
@@ -40,6 +39,7 @@ Registration :-
 3) Password should be of at least 6 characters
 4) Account does not exists
 5) Empty fields
+
 Detail Description How to Operate Live Users
 Project
 ● Errors Check :- Error checks are made on basis
@@ -55,11 +55,13 @@ check validation and if all creditails are present then the user is allowed to
 enter the next screen.
 
 Email’s tested for signIn :-
-1. Email : navigus@gmail.com password: welcome@123
-2. Email : navigu1@gmail.com password: welcome@123
-3. Email : navigus2@gmail.com password: welcome@123
-4. Email : navigus3@gmail.com password:welcome@123
-5. Email : navigus4@gmail.com password:welcome@123
+1. Email : hitish@gmail.com  password:  welcome
+2. Email : hitish2@gmail.com  password:  welcome
+3. Email : hitish4@gmail.com  password: welcome
+4. Email : hitish6@gmail.com password: welcome
+
+How i tested it!!!
+Firstly i opened the url in four different tabs once is login successfully it shows me the total number of users, and when i hover at a particular user it gives me pop up with the user email address. There is a Present button when i click it ,then it gives me total number of active users present in my Firebase Database.
 
 Software Used (All are Open source) :-
 1) Firebase Database}
@@ -73,6 +75,12 @@ GiB per month}
 6) Google drive hosting
 7) Sweet Alert.
 
+
+
+
+
+
+
+
 Name : Hitish Sharma
-Branch : B.tech -CSE
-Roll No. : 1727685
+
