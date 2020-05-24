@@ -45,3 +45,160 @@
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
  } 
+
+ .shadowNew  {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 800px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+ } 
+
+/* Added Avatar */
+ img {
+  border-radius: 50%;
+}
+
+.overr_5 {
+  position: absolute;
+  left: 210px;
+  top: 120px;
+  z-index: -1;
+}
+
+
+.overr_4 {
+  position: absolute;
+  left: 170px;
+  top: 120px;
+  z-index: -1;
+}
+
+.overr_3 {
+  position: absolute;
+  left: 140px;
+  top: 120px;
+  z-index: -1;
+}
+
+.over_2 {
+  position: absolute;
+  left: 110px;
+  top: 120px;
+  z-index: -1;
+}
+.over_1 {
+  position: absolute;
+  left: 80px;
+  top: 120px;
+  z-index: -1;
+}
+.under {
+  position: absolute;
+  left: 50px;
+  top: 120px;
+  z-index: -1;
+}
+.buttonP{
+    visibility:show;
+  background-color: #FFFFFF;
+  border-color: #e7e7e7;
+  color: black;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  padding: 15px 32px;
+  text-align: center;
+  justify-content: right;
+  align-items: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.buttonS {
+    visibility: show;
+  background-color: #FFFF00;
+  border: #FFFF00;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+/* Tootl tip to show hover */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.buttonP{
+  visibility:show;
+background-color: #FFFFFF;
+border-color: #e7e7e7;
+color: black;
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+padding: 15px 32px;
+text-align: center;
+justify-content: right;
+align-items: right;
+display: inline-block;
+font-size: 16px;
+margin-left: 100px;
+margin: 4px 2px;
+cursor: pointer;
+}
+.buttonS {
+  visibility: show;
+background-color: #FFFF00;
+border: #FFFF00;
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+padding: 15px 32px;
+text-align: center;
+justify-content: right;
+align-items: right;
+display: inline-block;
+font-size: 16px;
+margin: 4px 2px;
+cursor: pointer;
+}
+
+
+/* Handle Count */
+.last_btn_display {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.last_btn_display {border-radius: 50%;}

@@ -11,21 +11,21 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>  
         <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase.js"></script>
-         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase.js"></script>
+         <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
 
        
          <script>
                  // Your web app's Firebase configuration
-          var firebaseConfig = {
-                apiKey: "AIzaSyB0sBZIsuyJDLB2Q0wnwy1UIywLusRTEfw",
-                  authDomain: "form-7f24d.firebaseapp.com",
-                  databaseURL: "https://form-7f24d.firebaseio.com",
-                  projectId: "form-7f24d",
-                  storageBucket: "form-7f24d.appspot.com",
-                  messagingSenderId: "185216490023",
-                  appId: "1:185216490023:web:0ee1bbfa39b7b956914c02"
-                };       
+                 var firebaseConfig = {
+    apiKey: "AIzaSyAQKR__MWSu5_lA4f2AXVtnMCUG62YVP4Q",
+    authDomain: "form-350b8.firebaseapp.com",
+    databaseURL: "https://form-350b8.firebaseio.com",
+    projectId: "form-350b8",
+    storageBucket: "form-350b8.appspot.com",
+    messagingSenderId: "758112121361",
+    appId: "1:758112121361:web:dfd71491d883713cc1f7b0"
+  };      
                 var app  = firebase.initializeApp(firebaseConfig);
                  // Get a reference to the database service
                  var db = firebase.firestore(app);  
@@ -68,10 +68,9 @@ function goneAll() {
 
 const auth = firebase.auth(); 
 function signIn() {
-
     var signInEmail = document.getElementById("sign_in_email").value;
     var signInPassword = document.getElementById("sign_in_password").value;
-  
+
   // Store Session
     if (validateForm(signInEmail, signInPassword)) {
         auth.signInWithEmailAndPassword(signInEmail, signInPassword).then(function(user) {
@@ -147,7 +146,8 @@ console.log(password)
            
             })
             .catch(function(error) { 
-                swal( "Error", "Please check your Internet Connection", "error");  
+                // swal( "Error", "Please check your Internet Connection", "error");  
+                alert("Please check your Internet Connection")
                 console.log(error.message);
             }); 
             
@@ -198,11 +198,11 @@ function signUpValidation() {
 // Check browser support
     
      function updateUserStatusToServer() {
-          if (typeof(Storage) !== "undefined") {
-            document.getElementById("result").innerHTML = sessionStorage.getItem("userEmail");
-          } else {
-            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
-          }
+        //   if (typeof(Storage) !== "undefined") {
+        //     document.getElementById("result").innerHTML = sessionStorage.getItem("userEmail");
+        //   } else {
+        //     document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+        //   }
           setInterval (
                function() {
                 // Status Table
@@ -257,9 +257,9 @@ function runActiveEmailIntervals() {
 checkActiveStatusIntervals()
 }
 
-function handleHover(id) {
-    // Pop up Design
-//    alert("Hover Hitish"+ id.id)
+function handleHover(userVal) {
+    alert(""+userVal.id)
+        // document.getElementById("hover_user").innerHTML = userVal.id
 }
 
 function checkActiveStatusIntervals() {
@@ -272,7 +272,10 @@ function checkActiveStatusIntervals() {
             if(isStatusVisible(userTime)) {
                 if(!alreadyDisplayChips.includes(doc.id)) {
                     // console.log( "length:::"+doc.id)
-                    alreadyDisplayChips.push(doc.id) 
+                    var sessionEmail =  sessionStorage.getItem("userEmail")
+                    if(sessionEmail != doc.id){
+                         alreadyDisplayChips.push(doc.id) 
+                    }
                     console.log("Added elements"+alreadyDisplayChips)  
                 }
             
@@ -284,19 +287,20 @@ function checkActiveStatusIntervals() {
                         // removeByAttr(alreadyDisplayChips, 'email', doc.id);  
                     }
                 }
-                document.getElementById("otherUsers").innerHTML = '';
-                // console.log("Result:-"+alreadyDisplayChips)
-                for (i = 0; i < alreadyDisplayChips.length; i++) {
-                    document.getElementById("otherUsers").innerHTML += 
-                    "<div onmouseover='handleHover(this)' id="+alreadyDisplayChips[i]+"> " + alreadyDisplayChips[i] + " Status :- " +doc.get("status") + " </div>"
-                } 
+                
+                document.getElementById("otherUsers").innerHTML = ""
 
+                for (i = 0; i < alreadyDisplayChips.length; i++) {
+                    if(i == 0) {
+                        document.getElementById("otherUsers").innerHTML += 
+                     "<span onmouseover='handleHover(this)' id="+alreadyDisplayChips[i]+"> <img src='avtars/avtar1.png'  style='width:50px' >  </span>"
+                    } else {
+                        document.getElementById("otherUsers").innerHTML += 
+                        "<span onmouseover='handleHover(this)' id="+alreadyDisplayChips[i]+"> <img src='avtars/avtar2.png'  style='width:50px'>  </span>"
+                    }
+                }  
             });
         })
-
-        // document.getElementById("otherUsers").innerHTML += 
-        //             "<div onmouseover='handleHover(this)' id="+doc.id+"> " + doc.id + " </div>"
-        //doc.get("status")
 }
 
 // Difference between 2 times in seconds
@@ -319,9 +323,10 @@ function isStatusVisible(serverTimer) {
     <table class="sign">
     <tr> 
     <td><input class="editTextField" type="text" placeholder = "Email" id="sign_in_email" value=""></td>
+
      </tr>
      <tr> 
-    <td><input class="editTextField" type="text" placeholder = "Password" id="sign_in_password" value=""></td>
+    <td><input class="editTextField" type="password" placeholder = "Password" id="sign_in_password" value=""></td>
     <tr> 
     </table>
     <input class="button_css_ui1" type="button"  onclick="signIn()" value="SignIn">
@@ -347,25 +352,29 @@ function isStatusVisible(serverTimer) {
 </div>
 
                                                         <!-- Dashboard -->
-    <div id="div_display_visible_users" hidden>
+    <div class = "shadowNew" id="div_display_visible_users" hidden>
 
-    <h1>WELCOME TO THIS DOCUMENT...</h1>
-    <div id="result"></div>
+    <h1>Assignment-1</h1>
+    <!-- <div id="result"></div> -->
 
-    <div id="otherUsers"></div>
-    <div id="displayEmails"></div>
+     <div id="otherUsers">
+            <!-- <img src='avtars/avtar1.png'  style='width:50px' class='under'> 
+            <img src='avtars/avtar2.png'  style='width:50px' class='over_1'> 
+            <img src='avtars/avtar3.png'  style='width:50px' class='over_2'> 
+            <img src='avtars/avtar4.png'  style='width:50px' class='overr_3'>  
+            <img src='avtars/avtar5.png'  style='width:50px' class='overr_4'>  
+            <button class="last_btn_display last_btn_display_5" id="display_pending"> </button> -->
 
-    <div>
-            <!-- <img src="avtar1.png"  style="width:50px">
-            <img src="avtar2.png"  style="width:50px">
-            <img src="avtar3.png"  style="width:50px">
-            <img src="avtar4.png"  style="width:50px">
-            <img src="avtar5.png"  style="width:50px"> -->
-            
+    </div>
+    <div id="displayEmails">
     </div>
 
-    </script>
+    <div id="hover_user">   
+            <button class="buttonP">Present</button>
+            <button class="buttonS">Share</button>
+    </div> 
     </div>
+   
 
 </div>
 </body>
